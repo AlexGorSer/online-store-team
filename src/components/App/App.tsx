@@ -2,6 +2,7 @@ import React from "react";
 
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
+import Main from "../Main/Main";
 
 const App = (): React.ReactElement => {
   // Вместо 'one' можно поставить ссылку на картинку
@@ -15,6 +16,7 @@ const App = (): React.ReactElement => {
         srcOne="one"
         srcTwo="one"
       />
+      <Main />
       <Footer
         srcOne="one"
         srcTwo="one"

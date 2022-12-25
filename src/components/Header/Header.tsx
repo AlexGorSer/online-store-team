@@ -1,8 +1,7 @@
 import React from "react";
 import ISoursIMG from "./IHeader";
 
-const Header = (props: ISoursIMG): React.ReactElement => {
-  const { srcOne, srcTwo } = props;
+const Header = ({ srcOne, srcTwo }: ISoursIMG): React.ReactElement => {
   const cartCount = 0;
   const basketCount = 0;
 

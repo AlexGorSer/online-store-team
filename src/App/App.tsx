@@ -11,7 +11,7 @@ const App = (): React.ReactElement => {
   // Пример srcOne="one" или srcOne={переменная}
 
   return (
-    <section className="App">
+    <div className="App">
       <Header
         srcOne="one"
         srcTwo="one"
@@ -22,7 +22,7 @@ const App = (): React.ReactElement => {
         srcTwo="one"
         srcThree="one"
       />
-    </section>
+    </div>
   );
 };
 

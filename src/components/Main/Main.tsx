@@ -1,12 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
 import Filter from "./Filter/Filter";
+import IProducts from "./IMain";
 import ProductBlock from "./Products/Products";
 
-const Main = (): React.ReactElement => {
+const GOODS__URL = "https://dummyjson.com/products?limit=100";
+
+const Main: React.FC = () => {
+  const [goodsArray, setGoodsArray] = useState<IProducts[]>([]);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(GOODS__URL)
+      .then((res) => res.json())
+      .then((goods) => {
+        setGoodsArray(goods.products);
+      })
+      .catch((error) => console.log(error.massage))
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <main className="main__container">
       <Filter />
-      <ProductBlock />
+      <ProductBlock
+        data={goodsArray}
+        isLoad={loading}
+      />
     </main>
   );
 };

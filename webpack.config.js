@@ -16,9 +16,14 @@ const config = {
   devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, "dist"),
+    assetModuleFilename: "assets/source/[name][ext]",
   },
   devServer: {
-    open: true,
+    open: {
+      app: {
+        name: 'chrome'
+      }
+    },
     host: "localhost",
   },
   plugins: [

@@ -20,7 +20,13 @@ const Main: React.FC = () => {
       .catch((error) => console.log(error.massage))
       .finally(() => setLoading(false));
   }, []);
+  const arr: string[] = [];
 
+  goodsArray.forEach((e) => {
+    arr.push(e.category);
+  });
+  const set = new Set(arr);
+  console.log([...set]);
   return (
     <main className="main__container">
       <Filter />

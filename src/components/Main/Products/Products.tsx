@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import IProducts from "../IMain";
 
 interface IData {
@@ -10,9 +9,11 @@ interface IData {
 interface IProp {
   prop: IProducts;
 }
+
 const ProductBlock: React.FC<IData> = ({ data, isLoad }) => {
   // const [search, setSearch] = useState("");
   // const [filter, setFilter] = useState("");
+
   const [filteredArray, setFilteredArray] = useState<IProducts[]>([]);
 
   useEffect(() => {
@@ -43,20 +44,8 @@ const ProductBlock: React.FC<IData> = ({ data, isLoad }) => {
   // const filterFunction = fitterContent(filter).filter((elem) =>
   //   elem.title.toLowerCase().includes(search.toLowerCase())
   // );
-
   return (
     <section className="products__container">
-      {/* <input
-        onChange={(e) =>
-          e.target.checked
-            ? setFilterHandler(e.target.value, data, "category")
-            : setFilterHandler("", data, "category")
-        }
-        type="checkbox"
-        name=""
-        id=""
-        value="smartphones"
-      /> */}
       <div className="header__products">
         <select
           name=""
@@ -78,7 +67,7 @@ const ProductBlock: React.FC<IData> = ({ data, isLoad }) => {
           <button>Two</button>
         </div>
       </div>
-      <div>
+      <div className="cards__container">
         {isLoad ? (
           <h1>Loading</h1>
         ) : (
@@ -95,19 +84,31 @@ const ProductBlock: React.FC<IData> = ({ data, isLoad }) => {
 };
 
 const ProductsCard: React.FC<IProp> = ({ prop }) => {
-  const { title, price, discountPercentage, rating, stock, brand, category } =
-    prop;
+  const {
+    title,
+    price,
+    discountPercentage,
+    rating,
+    stock,
+    brand,
+    category,
+    thumbnail,
+  } = prop;
 
   return (
     <div className="card__container">
+      <div
+        className="back"
+        style={{ background: `url(${thumbnail}) 0% 0% / cover` }}
+      ></div>
       <h3>{title}</h3>
       <div className="info__card__container">
-        <span>{category}</span>
-        <span>{brand}</span>
-        <span>{price}</span>
-        <span>{discountPercentage}</span>
-        <span>{rating}</span>
-        <span>{stock}</span>
+        <span>Category: {category}</span>
+        <span>Brand: {brand}</span>
+        <span>Price: {price}</span>
+        <span>DiscountPercentage: {discountPercentage}</span>
+        <span>Rating: {rating}</span>
+        <span>Stock: {stock}</span>
       </div>
       <div className="buttons">
         <button>Add to cart</button>

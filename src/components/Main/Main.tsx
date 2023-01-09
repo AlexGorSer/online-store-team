@@ -9,6 +9,8 @@ const GOODS__URL = "https://dummyjson.com/products?limit=100";
 const Main: React.FC = () => {
   const [goodsArray, setGoodsArray] = useState<IProducts[]>([]);
   const [loading, setLoading] = useState(true);
+  const [category, setCategoryArr] = useState<string[]>([]);
+  const [brand, setCBrandArr] = useState<string[]>([]);
 
   const getArr = (key: keyof IProducts) => {
     const arr: string[] = [];
@@ -37,10 +39,16 @@ const Main: React.FC = () => {
       <Filter
         categoryArr={categoryArr}
         brandArr={brandArr}
+        setCategoryArr={setCategoryArr}
+        category={category}
+        setCBrandArr={setCBrandArr}
+        brand={brand}
       />
       <ProductBlock
         data={goodsArray}
         isLoad={loading}
+        brand={brand}
+        category={category}
       />
     </main>
   );

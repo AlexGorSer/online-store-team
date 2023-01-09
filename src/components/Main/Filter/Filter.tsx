@@ -1,26 +1,53 @@
-import React, { useState } from "react";
-import IFilterCheckboxes from "./Ifilter";
+import React from "react";
+import IFilterCheckboxes from "./IFilter";
 interface IFilter {
   categoryArr: string[];
   brandArr: string[];
+  setCategoryArr(element: string[]): void;
+  setCBrandArr(element: string[]): void;
+  category: string[];
+  brand: string[];
 }
 const Filter: React.FC<IFilter> = (props): React.ReactElement => {
-  const { categoryArr, brandArr } = props;
+  const {
+    categoryArr,
+    brandArr,
+    setCategoryArr,
+    category,
+    setCBrandArr,
+    brand,
+  } = props;
   // console.log(categoryArr, brandArr);
   return (
     <aside className="filter__container">
       <div className="button__container">
-        <button>Reset Filters</button>
+        <button
+          onClick={() => {
+            document
+              .querySelectorAll<HTMLInputElement>(".input-checkbox")
+              .forEach((e) => {
+                e.checked = false;
+              });
+            setCategoryArr([]);
+            setCBrandArr([]);
+          }}
+        >
+          Reset Filters
+        </button>
         <button>Copy link</button>
       </div>
       <div className="filter__blocks">
         <FilterCheckboxes
           filterName="Category"
-          category={categoryArr}
+          categoryArr={categoryArr}
+          setCategoryArr={setCategoryArr}
+          category={category}
         />
         <FilterCheckboxes
           filterName="Brand"
-          category={brandArr}
+          categoryArr={brandArr}
+          setCategoryArr={setCBrandArr}
+          category={brand}
         />
       </div>
     </aside>
@@ -29,25 +56,28 @@ const Filter: React.FC<IFilter> = (props): React.ReactElement => {
 
 const FilterCheckboxes: React.FC<IFilterCheckboxes> = ({
   filterName,
+  categoryArr,
+  setCategoryArr,
   category,
 }) => {
-  const [checkboxData, setCheckBoxData] = useState<string[]>([]);
+  // const [checkboxData, setCheckBoxData] = useState<string[]>([]);
 
-  console.log(checkboxData);
+  // console.log(checkboxData);
 
   return (
     <div className="filter__checkboxes">
       <p>{filterName}</p>
-      {category.map((elem, indx) => (
+      {categoryArr.map((elem, indx) => (
         <div key={indx}>
           <input
-            onChange={(e) =>
+            className="input-checkbox"
+            onChange={(e) => {
               e.target.checked
-                ? setCheckBoxData([...checkboxData, e.target.value])
-                : setCheckBoxData(
-                    checkboxData.filter((elem) => e.target.value !== elem)
-                  )
-            }
+                ? setCategoryArr([...category, e.target.value])
+                : setCategoryArr(
+                    category.filter((elem) => e.target.value !== elem)
+                  );
+            }}
             id={elem}
             type="checkbox"
             value={elem}

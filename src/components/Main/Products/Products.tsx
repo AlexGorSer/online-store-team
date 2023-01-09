@@ -5,25 +5,28 @@ import { setFilterHandler, setSortArray, searchByInput } from "./IProducts";
 interface IData {
   data: IProducts[];
   isLoad: boolean;
+  brand: string[];
+  category: string[];
+
   // setSearch: (a: string) => void;
 }
 interface IProp {
   prop: IProducts;
 }
 
-const ProductBlock: React.FC<IData> = ({ data, isLoad }) => {
+const ProductBlock: React.FC<IData> = ({ data, isLoad, brand, category }) => {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
-  const arrCategory: string[] = ["smartphones"];
-  const arrBrand: string[] = ["Apple"];
+  // const arrCategory: string[] = ["smartphones"];
+  // const arrBrand: string[] = ["Apple"];
   const [filteredArray, setFilteredArray] = useState<IProducts[]>([]);
 
   useEffect(() => {
     setFilteredArray(data);
   }, [data]);
   useEffect(() => {
-    sortBy(data, sort, arrCategory, arrBrand);
-  }, [sort, search]);
+    sortBy(data, sort, category, brand);
+  }, [sort, search, category, brand]);
 
   // const setFilterHandler = (
   //   value: string,

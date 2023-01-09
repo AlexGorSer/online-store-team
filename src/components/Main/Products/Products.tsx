@@ -7,18 +7,29 @@ interface IData {
   isLoad: boolean;
   brand: string[];
   category: string[];
-
+  setCrdObj(e: IProducts[]): void;
+  setCard(e: boolean): void;
   // setSearch: (a: string) => void;
 }
 interface IProp {
   prop: IProducts;
+  index: number;
+  findCardObj(a: number): IProducts[];
+  setCrdObj(e: IProducts[]): void;
+  setCard(e: boolean): void;
 }
 
-const ProductBlock: React.FC<IData> = ({ data, isLoad, brand, category }) => {
+const ProductBlock: React.FC<IData> = ({
+  data,
+  isLoad,
+  brand,
+  category,
+  setCrdObj,
+  setCard,
+}) => {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
-  // const arrCategory: string[] = ["smartphones"];
-  // const arrBrand: string[] = ["Apple"];
+
   const [filteredArray, setFilteredArray] = useState<IProducts[]>([]);
 
   useEffect(() => {
@@ -60,7 +71,10 @@ const ProductBlock: React.FC<IData> = ({ data, isLoad, brand, category }) => {
     sort = searchByInput(search, sort);
     setFilteredArray(sort);
   };
-
+  const findCardObj = (index: number) => {
+    const obj = filteredArray.filter((_, inx) => inx === index);
+    return obj;
+  };
   return (
     <section className="products__container">
       <div className="header__products">
@@ -81,7 +95,7 @@ const ProductBlock: React.FC<IData> = ({ data, isLoad, brand, category }) => {
         <input
           onChange={(e) => setSearch(e.target.value)}
           type="search"
-          placeholder="Название"
+          placeholder="Введи название"
         />
         <div>
           <button>One</button>
@@ -92,10 +106,14 @@ const ProductBlock: React.FC<IData> = ({ data, isLoad, brand, category }) => {
         {isLoad ? (
           <h1>Loading</h1>
         ) : (
-          filteredArray.map((elem) => (
+          filteredArray.map((elem, index) => (
             <ProductsCard
               prop={elem}
               key={elem.id}
+              index={index}
+              findCardObj={findCardObj}
+              setCrdObj={setCrdObj}
+              setCard={setCard}
             />
           ))
         )}
@@ -104,7 +122,13 @@ const ProductBlock: React.FC<IData> = ({ data, isLoad, brand, category }) => {
   );
 };
 
-const ProductsCard: React.FC<IProp> = ({ prop }) => {
+const ProductsCard: React.FC<IProp> = ({
+  prop,
+  index,
+  findCardObj,
+  setCrdObj,
+  setCard,
+}) => {
   const {
     title,
     price,
@@ -113,14 +137,14 @@ const ProductsCard: React.FC<IProp> = ({ prop }) => {
     stock,
     brand,
     category,
-    // thumbnail,
+    thumbnail,
   } = prop;
 
   return (
     <div className="card__container">
       <div
         className="back"
-        // style={{ background: `url(${thumbnail}) 0% 0% / cover` }}
+        style={{ background: `url(${thumbnail}) 0% 0% / cover` }}
       ></div>
       <h3>{title}</h3>
       <div className="info__card__container">
@@ -133,7 +157,14 @@ const ProductsCard: React.FC<IProp> = ({ prop }) => {
       </div>
       <div className="buttons">
         <button>Add to cart</button>
-        <button>Details</button>
+        <button
+          onClick={() => {
+            setCrdObj(findCardObj(index));
+            setCard(true);
+          }}
+        >
+          Details
+        </button>
       </div>
     </div>
   );

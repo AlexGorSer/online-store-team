@@ -66,7 +66,7 @@ const FilterCheckboxes: React.FC<IFilterCheckboxes> = ({
 
   return (
     <div className="filter__checkboxes">
-      <p>{filterName}</p>
+      <p>{filterName}:</p>
       {categoryArr.map((elem, indx) => (
         <div key={indx}>
           <input

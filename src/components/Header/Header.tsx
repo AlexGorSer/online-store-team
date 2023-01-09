@@ -7,17 +7,21 @@ const Header = ({ srcOne, srcTwo }: ISoursIMG): React.ReactElement => {
 
   return (
     <header className="header__container">
-      <img
-        src={srcOne}
-        alt="logo-store"
-      />
-      <p>Cart total: {cartCount}</p>
       <div>
+        {/* <img
+          src={srcOne}
+          alt="logo-store"
+        /> */}
+        <p>Online-store</p>
+      </div>
+      <p>Cart total: {cartCount}</p>
+      <div className="basket__container">
         <img
+          className="header_basket"
           src={srcTwo}
           alt="basket"
         />
-        <span>{basketCount}</span>
+        <span className="basket__count">{basketCount}</span>
       </div>
     </header>
   );

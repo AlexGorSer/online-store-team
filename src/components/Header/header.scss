@@ -7,3 +7,15 @@
 
   border: 1px solid black;
 }
+.basket__container {
+  position: relative;
+}
+.header_basket {
+  // position: absolute;
+  width: 60px;
+}
+.basket__count {
+  position: absolute;
+  top: 30%;
+  right: 40%;
+}

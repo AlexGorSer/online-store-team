@@ -10,5 +10,5 @@
     "sourceMap": true
   },
   "files": ["src/index.tsx"],
-  "include": ["src/asset/svg"]
+  "include": ["src/asset/svg", "src/asset/img"]
 }

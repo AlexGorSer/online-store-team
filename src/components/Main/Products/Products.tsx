@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import IProducts from "../IMain";
+import { setFilterHandler, setSortArray, searchByInput } from "./IProducts";
 
 interface IData {
   data: IProducts[];
@@ -11,54 +12,71 @@ interface IProp {
 }
 
 const ProductBlock: React.FC<IData> = ({ data, isLoad }) => {
-  // const [search, setSearch] = useState("");
-  // const [filter, setFilter] = useState("");
-
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("");
+  const arrCategory: string[] = ["smartphones"];
+  const arrBrand: string[] = ["Apple"];
   const [filteredArray, setFilteredArray] = useState<IProducts[]>([]);
 
   useEffect(() => {
     setFilteredArray(data);
   }, [data]);
+  useEffect(() => {
+    sortBy(data, sort, arrCategory, arrBrand);
+  }, [sort, search]);
 
-  const setFilterHandler = (
-    value: string,
-    data: IProducts[],
-    key: keyof IProducts
-  ) => {
-    if (!value) {
-      return setFilteredArray(data);
-    } else {
-      const newArr = [...data].filter((elem) =>
-        elem[key].toString().toLowerCase().includes(value.toLowerCase())
-      );
-      return setFilteredArray(newArr);
-    }
-  };
-  // const fitterContent = (value = "") => {
+  // const setFilterHandler = (
+  //   value: string,
+  //   data: IProducts[],
+  //   key: keyof IProducts
+  // ) => {
   //   if (!value) {
-  //     return data;
+  //     return setFilteredArray(data);
+  //   } else {
+  //     const newArr = [...data].filter((elem) =>
+  //       elem[key].toString().toLowerCase().includes(value.toLowerCase())
+  //     );
+  //     return setFilteredArray(newArr);
   //   }
-  //   return data.filter((elem) => elem.brand === value);
   // };
 
-  // const filterFunction = fitterContent(filter).filter((elem) =>
-  //   elem.title.toLowerCase().includes(search.toLowerCase())
-  // );
+  // console.log(setFilterHandler(data, cater, "category"));
+
+  const sortBy = (
+    data: IProducts[],
+    filterBy: string,
+    arrayCategory: string[],
+    arrayBrand: string[]
+  ) => {
+    const copyData = [...data];
+    let sort: IProducts[] = [];
+
+    sort = setFilterHandler(copyData, arrayCategory, "category");
+    sort = setFilterHandler(sort, arrayBrand, "brand");
+    sort = setSortArray(filterBy, sort);
+    sort = searchByInput(search, sort);
+    setFilteredArray(sort);
+  };
+
   return (
     <section className="products__container">
       <div className="header__products">
         <select
           name=""
           id=""
-          onChange={(e) => setFilterHandler(e.target.value, data, "brand")}
+          onChange={(e) => setSort(e.target.value)}
         >
-          <option value="">All</option>
-          <option value="Apple">Apple</option>
-          <option value="Samsung">Samsung</option>
+          <option value="all">All</option>
+          <option value="price-ASC">Sort by price ASC</option>
+          <option value="price-DESC">Sort by price DESC</option>
+          <option value="rating-ASC">Sort by rating ASC</option>
+          <option value="rating-DESC">Sort by rating DESC</option>
+          <option value="discount-ASC">Sort by discount ASC</option>
+          <option value="discount-DESC">Sort by discount DESC</option>
         </select>
         <p>Found: {filteredArray.length}</p>
         <input
-          onChange={(e) => setFilterHandler(e.target.value, data, "title")}
+          onChange={(e) => setSearch(e.target.value)}
           type="search"
           placeholder="Название"
         />
@@ -92,14 +110,14 @@ const ProductsCard: React.FC<IProp> = ({ prop }) => {
     stock,
     brand,
     category,
-    thumbnail,
+    // thumbnail,
   } = prop;
 
   return (
     <div className="card__container">
       <div
         className="back"
-        style={{ background: `url(${thumbnail}) 0% 0% / cover` }}
+        // style={{ background: `url(${thumbnail}) 0% 0% / cover` }}
       ></div>
       <h3>{title}</h3>
       <div className="info__card__container">
@@ -119,3 +137,14 @@ const ProductsCard: React.FC<IProp> = ({ prop }) => {
 };
 
 export default ProductBlock;
+
+// const fitterContent = (value = "") => {
+//   if (!value) {
+//     return data;
+//   }
+//   return data.filter((elem) => elem.brand === value);
+// };
+
+// const filterFunction = fitterContent(filter).filter((elem) =>
+//   elem.title.toLowerCase().includes(search.toLowerCase())
+// );

@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import IFilterCheckboxes from "./Ifilter";
-
-const Filter = (): React.ReactElement => {
+interface IFilter {
+  categoryArr: string[];
+  brandArr: string[];
+}
+const Filter: React.FC<IFilter> = (props): React.ReactElement => {
+  const { categoryArr, brandArr } = props;
+  // console.log(categoryArr, brandArr);
   return (
     <aside className="filter__container">
       <div className="button__container">
@@ -9,38 +14,47 @@ const Filter = (): React.ReactElement => {
         <button>Copy link</button>
       </div>
       <div className="filter__blocks">
-        <FilterCheckboxes filterName="Category" />
-        <FilterCheckboxes filterName="Brand" />
+        <FilterCheckboxes
+          filterName="Category"
+          category={categoryArr}
+        />
+        <FilterCheckboxes
+          filterName="Brand"
+          category={brandArr}
+        />
       </div>
     </aside>
   );
 };
 
-const FilterCheckboxes = (props: IFilterCheckboxes): React.ReactElement => {
-  const { filterName } = props;
+const FilterCheckboxes: React.FC<IFilterCheckboxes> = ({
+  filterName,
+  category,
+}) => {
+  const [checkboxData, setCheckBoxData] = useState<string[]>([]);
 
-  const [checkboxData, setCheckBoxData] = useState<object>({
-    smartphones: true,
-    test: true,
-  });
   console.log(checkboxData);
+
   return (
     <div className="filter__checkboxes">
       <p>{filterName}</p>
-      <div>
-        <input
-          onChange={(e) =>
-            setCheckBoxData({
-              ...checkboxData,
-              ...{ smartphones: e.target.checked },
-            })
-          }
-          id="smartphones"
-          type="checkbox"
-          value="smartphones"
-        />
-        <label htmlFor="smartphones">smartphones</label>
-      </div>
+      {category.map((elem, indx) => (
+        <div key={indx}>
+          <input
+            onChange={(e) =>
+              e.target.checked
+                ? setCheckBoxData([...checkboxData, e.target.value])
+                : setCheckBoxData(
+                    checkboxData.filter((elem) => e.target.value !== elem)
+                  )
+            }
+            id={elem}
+            type="checkbox"
+            value={elem}
+          />
+          <label htmlFor={elem}>{elem}</label>
+        </div>
+      ))}
     </div>
   );
 };

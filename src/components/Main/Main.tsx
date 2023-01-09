@@ -8,8 +8,19 @@ const GOODS__URL = "https://dummyjson.com/products?limit=100";
 
 const Main: React.FC = () => {
   const [goodsArray, setGoodsArray] = useState<IProducts[]>([]);
-
   const [loading, setLoading] = useState(true);
+
+  const getArr = (key: keyof IProducts) => {
+    const arr: string[] = [];
+    goodsArray.forEach((e) => {
+      arr.push(e[key].toString());
+    });
+    const set = new Set(arr.filter((e) => e !== "APPle"));
+    return [...set];
+  };
+  const categoryArr: string[] = getArr("category");
+  const brandArr: string[] = getArr("brand");
+  // console.log(categoryArr, brandArr);
 
   useEffect(() => {
     fetch(GOODS__URL)
@@ -20,16 +31,13 @@ const Main: React.FC = () => {
       .catch((error) => console.log(error.massage))
       .finally(() => setLoading(false));
   }, []);
-  const arr: string[] = [];
 
-  goodsArray.forEach((e) => {
-    arr.push(e.category);
-  });
-  const set = new Set(arr);
-  console.log([...set]);
   return (
     <main className="main__container">
-      <Filter />
+      <Filter
+        categoryArr={categoryArr}
+        brandArr={brandArr}
+      />
       <ProductBlock
         data={goodsArray}
         isLoad={loading}

@@ -9,6 +9,8 @@ interface IData {
   category: string[];
   setCrdObj(e: IProducts[]): void;
   setCard(e: boolean): void;
+  setBasketArr(e: IProducts[]): void;
+  basketArr: IProducts[];
   // setSearch: (a: string) => void;
 }
 interface IProp {
@@ -17,6 +19,9 @@ interface IProp {
   findCardObj(a: number): IProducts[];
   setCrdObj(e: IProducts[]): void;
   setCard(e: boolean): void;
+  setBasketArr(e: IProducts[]): void;
+  basketArr: IProducts[];
+  cardsView: boolean;
 }
 
 const ProductBlock: React.FC<IData> = ({
@@ -26,9 +31,12 @@ const ProductBlock: React.FC<IData> = ({
   category,
   setCrdObj,
   setCard,
+  setBasketArr,
+  basketArr,
 }) => {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
+  const [cardsView, setCardsView] = useState(false);
 
   const [filteredArray, setFilteredArray] = useState<IProducts[]>([]);
 
@@ -38,23 +46,6 @@ const ProductBlock: React.FC<IData> = ({
   useEffect(() => {
     sortBy(data, sort, category, brand);
   }, [sort, search, category, brand]);
-
-  // const setFilterHandler = (
-  //   value: string,
-  //   data: IProducts[],
-  //   key: keyof IProducts
-  // ) => {
-  //   if (!value) {
-  //     return setFilteredArray(data);
-  //   } else {
-  //     const newArr = [...data].filter((elem) =>
-  //       elem[key].toString().toLowerCase().includes(value.toLowerCase())
-  //     );
-  //     return setFilteredArray(newArr);
-  //   }
-  // };
-
-  // console.log(setFilterHandler(data, cater, "category"));
 
   const sortBy = (
     data: IProducts[],
@@ -98,8 +89,8 @@ const ProductBlock: React.FC<IData> = ({
           placeholder="Введи название"
         />
         <div>
-          <button>One</button>
-          <button>Two</button>
+          <button onClick={() => setCardsView(false)}>Плитка</button>
+          <button onClick={() => setCardsView(true)}>Список</button>
         </div>
       </div>
       <div className="cards__container">
@@ -114,6 +105,9 @@ const ProductBlock: React.FC<IData> = ({
               findCardObj={findCardObj}
               setCrdObj={setCrdObj}
               setCard={setCard}
+              setBasketArr={setBasketArr}
+              basketArr={basketArr}
+              cardsView={cardsView}
             />
           ))
         )}
@@ -128,6 +122,9 @@ const ProductsCard: React.FC<IProp> = ({
   findCardObj,
   setCrdObj,
   setCard,
+  setBasketArr,
+  basketArr,
+  cardsView,
 }) => {
   const {
     title,
@@ -141,7 +138,7 @@ const ProductsCard: React.FC<IProp> = ({
   } = prop;
 
   return (
-    <div className="card__container">
+    <div className={cardsView ? "card__container-alt" : "card__container"}>
       <div
         className="back"
         style={{ background: `url(${thumbnail}) 0% 0% / cover` }}
@@ -150,13 +147,34 @@ const ProductsCard: React.FC<IProp> = ({
       <div className="info__card__container">
         <span>Category: {category}</span>
         <span>Brand: {brand}</span>
-        <span>Price: {price}</span>
+        <span>Price: {price}.00</span>
         <span>DiscountPercentage: {discountPercentage}</span>
         <span>Rating: {rating}</span>
         <span>Stock: {stock}</span>
       </div>
       <div className="buttons">
-        <button>Add to cart</button>
+        {!basketArr.includes(findCardObj(index)[0]) ? (
+          <button
+            onClick={() => {
+              if (!basketArr.includes(findCardObj(index)[0])) {
+                setBasketArr([...basketArr, ...findCardObj(index)]);
+              }
+            }}
+          >
+            Add to cart
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              const arr = [...basketArr].filter(
+                (e) => e.id !== findCardObj(index)[0].id
+              );
+              setBasketArr([...arr]);
+            }}
+          >
+            Delete
+          </button>
+        )}
         <button
           onClick={() => {
             setCrdObj(findCardObj(index));

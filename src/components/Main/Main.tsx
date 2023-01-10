@@ -3,12 +3,16 @@ import React, { useEffect, useState } from "react";
 import Filter from "./Filter/Filter";
 import IProducts from "./IMain";
 import ProductBlock from "./Products/Products";
-alert(
-  "Привет, я это задание делал один, не могли бы вы его проверить в последний день? Заранее спасибо!"
-);
-const GOODS__URL = "https://dummyjson.com/products?limit=100";
+// alert(
+//   "Привет, я это задание делал один, не могли бы вы его проверить в последний день? Заранее спасибо!"
+// );
+const GOODS__URL = "https://dummyjson.com/products?limit=20";
+interface IMain {
+  setBasketArr(arr: IProducts[]): void;
+  basketArr: IProducts[];
+}
 
-const Main: React.FC = () => {
+const Main: React.FC<IMain> = ({ setBasketArr, basketArr }) => {
   const [goodsArray, setGoodsArray] = useState<IProducts[]>([]);
   const [loading, setLoading] = useState(true);
   const [category, setCategoryArr] = useState<string[]>([]);
@@ -75,6 +79,8 @@ const Main: React.FC = () => {
         category={category}
         setCrdObj={setCrdObj}
         setCard={setCard}
+        setBasketArr={setBasketArr}
+        basketArr={basketArr}
       />
     </main>
   );

@@ -52,6 +52,26 @@
     // background-position: center !important;
   }
 }
+.card__container-alt {
+  position: relative;
+  width: 100%;
+  display: flex;
+  // flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  border: 1px solid black;
+  border-radius: 1rem;
+  overflow: hidden;
+  color: orange;
+  .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    top: 0;
+    // background-position: center !important;
+  }
+}
 .buttons {
   padding-bottom: 1rem;
   display: flex;

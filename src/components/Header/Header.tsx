@@ -3,7 +3,6 @@ import React from "react";
 import IHeader, { setCountArr } from "./IHeader";
 
 const Header: React.FC<IHeader> = ({
-  srcOne,
   srcTwo,
   basketArr,
   setBasketComponent,

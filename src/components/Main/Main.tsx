@@ -309,9 +309,11 @@ const BasketArrCart: React.FC<IBasketArrCart> = ({
         <div className="basket__cart-buttons">
           <button
             onClick={() => {
-              setTotalCount(totalCount + 1);
-              setPrise(priseCount + findBasketArr(index)[0].price);
-              setProducts(productsCount + 1);
+              if (totalCount !== findBasketArr(index)[0].stock) {
+                setTotalCount(totalCount + 1);
+                setPrise(priseCount + findBasketArr(index)[0].price);
+                setProducts(productsCount + 1);
+              }
             }}
           >
             +

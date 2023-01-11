@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { setCountArr } from "../Header/IHeader";
 
 import Filter from "./Filter/Filter";
 import IProducts from "./IMain";
@@ -10,9 +11,14 @@ const GOODS__URL = "https://dummyjson.com/products?limit=20";
 interface IMain {
   setBasketArr(arr: IProducts[]): void;
   basketArr: IProducts[];
+  basketComponent: boolean;
 }
 
-const Main: React.FC<IMain> = ({ setBasketArr, basketArr }) => {
+const Main: React.FC<IMain> = ({
+  setBasketArr,
+  basketArr,
+  basketComponent,
+}) => {
   const [goodsArray, setGoodsArray] = useState<IProducts[]>([]);
   const [loading, setLoading] = useState(true);
   const [category, setCategoryArr] = useState<string[]>([]);
@@ -45,22 +51,18 @@ const Main: React.FC<IMain> = ({ setBasketArr, basketArr }) => {
 
   return (
     <main className="main__container">
-      {/* <button
-        onClick={() => {
-          card ? setCard(false) : setCard(true);
-          document
-            .querySelectorAll<HTMLInputElement>(".input-checkbox")
-            .forEach((e) => {
-              e.checked = false;
-            });
-          setCategoryArr([]);
-          setCBrandArr([]);
-        }}
-      ></button> */}
       {card && (
         <ProductCard
           setCard={setCard}
           cardObj={cardObj}
+          setBasketArr={setBasketArr}
+          basketArr={basketArr}
+        />
+      )}
+      {basketComponent && (
+        <BasketModal
+          basketArr={basketArr}
+          setBasketArr={setBasketArr}
         />
       )}
       <Filter
@@ -91,8 +93,15 @@ export default Main;
 interface IProductCard {
   setCard(e: boolean): void;
   cardObj: IProducts[];
+  setBasketArr(arr: IProducts[]): void;
+  basketArr: IProducts[];
 }
-const ProductCard: React.FC<IProductCard> = ({ setCard, cardObj }) => {
+const ProductCard: React.FC<IProductCard> = ({
+  setCard,
+  cardObj,
+  setBasketArr,
+  basketArr,
+}) => {
   const str = ">>";
   return (
     <div className="card__modal">
@@ -157,9 +166,176 @@ const ProductCard: React.FC<IProductCard> = ({ setCard, cardObj }) => {
         </div>
         <div className="pay__container">
           <h2>€{cardObj[0].price}</h2>
-          <button>ADD TO CARD</button>
+          {basketArr.includes(cardObj[0]) ? (
+            <button
+              onClick={() => {
+                const arr = [...basketArr].filter(
+                  (e) => e.id !== cardObj[0].id
+                );
+                setBasketArr([...arr]);
+              }}
+            >
+              DELETE
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                if (!basketArr.includes(cardObj[0])) {
+                  setBasketArr([...basketArr, ...cardObj]);
+                }
+              }}
+            >
+              ADD TO CARD
+            </button>
+          )}
           <button>BUY NOW</button>
         </div>
+      </div>
+    </div>
+  );
+};
+
+interface IBasketModal {
+  basketArr: IProducts[];
+  setBasketArr(arr: IProducts[]): void;
+}
+
+const BasketModal: React.FC<IBasketModal> = ({ basketArr, setBasketArr }) => {
+  return (
+    <div className="basket__container-modal">
+      {!!basketArr.length ? (
+        <BasketGoods
+          basketArr={basketArr}
+          setBasketArr={setBasketArr}
+        />
+      ) : (
+        <div>
+          <p>корзина пуста</p>
+        </div>
+      )}
+    </div>
+  );
+};
+type IBasketGoods = IBasketModal;
+
+const BasketGoods: React.FC<IBasketGoods> = ({ basketArr, setBasketArr }) => {
+  const [priseCount, setPrise] = useState(setCountArr(basketArr));
+  const [productsCount, setProducts] = useState(basketArr.length);
+
+  const findBasketArr = (index: number) => {
+    const obj = basketArr.filter((_, inx) => inx === index);
+    return obj;
+  };
+  return (
+    <div className="basket__cart-container">
+      <div className="basket__cart-container-products">
+        <div className="basket__cart-header">
+          <p>Products in Cart</p>
+          <p>Limit</p>
+          <p>page</p>
+        </div>
+        {basketArr.map((elem, index) => (
+          <BasketArrCart
+            key={elem.id}
+            elem={elem}
+            index={index}
+            setPrise={setPrise}
+            setProducts={setProducts}
+            priseCount={priseCount}
+            productsCount={productsCount}
+            findBasketArr={findBasketArr}
+            basketArr={basketArr}
+            setBasketArr={setBasketArr}
+          />
+        ))}
+      </div>
+      <div className="summary_container">
+        <p>Summary</p>
+        <div className="summary">
+          <p>products {productsCount}</p>
+          <p>total: {priseCount}</p>
+          <input
+            type="search"
+            name=""
+            id=""
+          />
+          <button>buy now</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+interface IBasketArrCart {
+  elem: IProducts;
+  index: number;
+  setPrise(e: number): void;
+  setProducts(e: number): void;
+  findBasketArr(arr: number): IProducts[];
+  priseCount: number;
+  productsCount: number;
+  basketArr: IProducts[];
+  setBasketArr(arr: IProducts[]): void;
+}
+const BasketArrCart: React.FC<IBasketArrCart> = ({
+  elem,
+  index,
+  setPrise,
+  setProducts,
+  findBasketArr,
+  priseCount,
+  productsCount,
+  setBasketArr,
+  basketArr,
+}) => {
+  const [totalCount, setTotalCount] = useState(1);
+
+  return (
+    <div className="basket__cart">
+      <p>{index + 1}</p>
+      <img
+        src={elem.thumbnail}
+        alt=""
+      />
+      <div className="basket__cart-description">
+        <h2>{elem.title}</h2>
+        <p>{elem.description}</p>
+        <div className="basket__cart-rating">
+          <p>{elem.rating}</p>
+          <p>{elem.discountPercentage}</p>
+        </div>
+      </div>
+      <div className="basket__cart-stock">
+        <p>stock {elem.stock}</p>
+        <div className="basket__cart-buttons">
+          <button
+            onClick={() => {
+              setTotalCount(totalCount + 1);
+              setPrise(priseCount + findBasketArr(index)[0].price);
+              setProducts(productsCount + 1);
+            }}
+          >
+            +
+          </button>
+          <p>{totalCount}</p>
+          <button
+            onClick={() => {
+              if (totalCount > 1) {
+                setTotalCount(totalCount - 1);
+              } else {
+                const arr = [...basketArr].filter(
+                  (e) => e.id !== findBasketArr(index)[0].id
+                );
+                setBasketArr([...arr]);
+              }
+
+              setPrise(priseCount - findBasketArr(index)[0].price);
+              setProducts(productsCount - 1);
+            }}
+          >
+            -
+          </button>
+        </div>
+        <p>price {elem.price}</p>
       </div>
     </div>
   );

@@ -60,10 +60,6 @@ const FilterCheckboxes: React.FC<IFilterCheckboxes> = ({
   setCategoryArr,
   category,
 }) => {
-  // const [checkboxData, setCheckBoxData] = useState<string[]>([]);
-
-  // console.log(checkboxData);
-
   return (
     <div className="filter__checkboxes">
       <p>{filterName}:</p>

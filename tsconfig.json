@@ -7,8 +7,10 @@
     "target": "es6",
     "allowJs": true,
     "strict": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "moduleResolution": "node"
   },
   "files": ["src/index.tsx"],
-  "include": ["src/asset/svg", "src/asset/img"]
+  "include": ["src/asset/**/*"]
+  // "exclude": ["./node_modules/**/*"]
 }

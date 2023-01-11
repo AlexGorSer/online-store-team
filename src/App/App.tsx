@@ -10,17 +10,20 @@ import IProducts from "../components/Main/IMain";
 
 const App = (): React.ReactElement => {
   const [basketArr, setBasketArr] = useState<IProducts[]>([]);
-  console.log(basketArr);
+  const [basketComponent, setBasketComponent] = useState(false);
+
   return (
     <div className="App">
       <Header
         srcOne=""
         srcTwo={cart}
         basketArr={basketArr}
+        setBasketComponent={setBasketComponent}
       />
       <Main
         setBasketArr={setBasketArr}
         basketArr={basketArr}
+        basketComponent={basketComponent}
       />
       <Footer
         srcOne={rssLogo}

@@ -1,4 +1,5 @@
 import React from "react";
+import { useSearchParams } from "react-router-dom";
 import IFilterCheckboxes from "./IFilter";
 interface IFilter {
   categoryArr: string[];
@@ -60,6 +61,15 @@ const FilterCheckboxes: React.FC<IFilterCheckboxes> = ({
   setCategoryArr,
   category,
 }) => {
+  // const [searchParams, setSearchParams] = useSearchParams();
+  // const check = searchParams.get("checked") || "";
+
+  // const hand = (e: React.ChangeEvent<HTMLInputElement>, elem: string) => {
+  //   const check = e.target.checked;
+  //   const param = { [elem]: "false" };
+  //   if (check) param[elem] = "true";
+  //   setSearchParams(param);
+  // };
   return (
     <div className="filter__checkboxes">
       <p>{filterName}:</p>
@@ -73,6 +83,7 @@ const FilterCheckboxes: React.FC<IFilterCheckboxes> = ({
                 : setCategoryArr(
                     category.filter((elem) => e.target.value !== elem)
                   );
+              // hand(e, elem);
             }}
             id={elem}
             type="checkbox"

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { ChangeEventHandler, useState } from "react";
+import { Route, Routes, useSearchParams } from "react-router-dom";
 
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
@@ -24,12 +25,19 @@ const App = (): React.ReactElement => {
         basketArr={basketArr}
         setBasketComponent={setBasketComponent}
       />
-      <Main
-        setBasketArr={setBasketArr}
-        basketArr={basketArr}
-        basketComponent={basketComponent}
-        setModal={setModal}
-      />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Main
+              setBasketArr={setBasketArr}
+              basketArr={basketArr}
+              basketComponent={basketComponent}
+              setModal={setModal}
+            />
+          }
+        />
+      </Routes>
       <Footer
         srcOne={rssLogo}
         srcThree={gitLogo}

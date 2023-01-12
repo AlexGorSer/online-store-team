@@ -8,12 +8,16 @@ import rssLogo from "../asset/svg/rs_school_js.svg";
 import cart from "../asset/img/cart.png";
 import IProducts from "../components/Main/IMain";
 
+import { Modal } from "./../components/ModalForm/Modal";
+
 const App = (): React.ReactElement => {
   const [basketArr, setBasketArr] = useState<IProducts[]>([]);
   const [basketComponent, setBasketComponent] = useState(false);
+  const [modal, setModal] = useState(false);
 
   return (
     <div className="App">
+      {modal && <Modal setModal={setModal} />}
       <Header
         srcOne=""
         srcTwo={cart}
@@ -24,6 +28,7 @@ const App = (): React.ReactElement => {
         setBasketArr={setBasketArr}
         basketArr={basketArr}
         basketComponent={basketComponent}
+        setModal={setModal}
       />
       <Footer
         srcOne={rssLogo}

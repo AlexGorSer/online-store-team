@@ -1,9 +1,7 @@
 import React from "react";
 import IFooterIMG from "./IFooter";
 
-const Footer = (props: IFooterIMG): React.ReactElement => {
-  const { srcOne, srcThree } = props;
-
+const Footer: React.FC<IFooterIMG> = ({ srcOne, srcThree }) => {
   return (
     <footer className="footer__container">
       <div>

@@ -1,28 +1,13 @@
 import React, { useEffect, useState } from "react";
-import IProducts from "../IMain";
-import { setFilterHandler, setSortArray, searchByInput } from "./IProducts";
+import { IProducts } from "../IMain";
+import { ProductsCard } from "./ProductsCard";
 
-interface IData {
-  data: IProducts[];
-  isLoad: boolean;
-  brand: string[];
-  category: string[];
-  setCrdObj(e: IProducts[]): void;
-  setCard(e: boolean): void;
-  setBasketArr(e: IProducts[]): void;
-  basketArr: IProducts[];
-  // setSearch: (a: string) => void;
-}
-interface IProp {
-  prop: IProducts;
-  index: number;
-  findCardObj(a: number): IProducts[];
-  setCrdObj(e: IProducts[]): void;
-  setCard(e: boolean): void;
-  setBasketArr(e: IProducts[]): void;
-  basketArr: IProducts[];
-  cardsView: boolean;
-}
+import {
+  setFilterHandler,
+  setSortArray,
+  searchByInput,
+  IData,
+} from "./IProducts";
 
 const ProductBlock: React.FC<IData> = ({
   data,
@@ -116,88 +101,4 @@ const ProductBlock: React.FC<IData> = ({
   );
 };
 
-const ProductsCard: React.FC<IProp> = ({
-  prop,
-  index,
-  findCardObj,
-  setCrdObj,
-  setCard,
-  setBasketArr,
-  basketArr,
-  cardsView,
-}) => {
-  const {
-    title,
-    price,
-    discountPercentage,
-    rating,
-    stock,
-    brand,
-    category,
-    thumbnail,
-  } = prop;
-
-  return (
-    <div className={cardsView ? "card__container-alt" : "card__container"}>
-      <div
-        className="back"
-        style={{ background: `url(${thumbnail}) 0% 0% / cover` }}
-      ></div>
-      <h3>{title}</h3>
-      <div className="info__card__container">
-        <span>Category: {category}</span>
-        <span>Brand: {brand}</span>
-        <span>Price: {price}.00</span>
-        <span>DiscountPercentage: {discountPercentage}</span>
-        <span>Rating: {rating}</span>
-        <span>Stock: {stock}</span>
-      </div>
-      <div className="buttons">
-        {!basketArr.includes(findCardObj(index)[0]) ? (
-          <button
-            onClick={() => {
-              if (!basketArr.includes(findCardObj(index)[0])) {
-                setBasketArr([...basketArr, ...findCardObj(index)]);
-              }
-            }}
-          >
-            Add to cart
-          </button>
-        ) : (
-          <button
-            onClick={() => {
-              const arr = [...basketArr].filter(
-                (e) => e.id !== findCardObj(index)[0].id
-              );
-              setBasketArr([...arr]);
-            }}
-          >
-            Delete
-          </button>
-        )}
-        <button
-          onClick={() => {
-            setCrdObj(findCardObj(index));
-            setCard(true);
-          }}
-        >
-          Details
-        </button>
-      </div>
-    </div>
-  );
-};
-
 export default ProductBlock;
-
-// const fitterContent = (value = "") => {
-//   if (!value) {
-//     return data;
-//   }
-//   return data.filter((elem) => elem.brand === value);
-// };
-
-// const filterFunction = fitterContent(filter).filter((elem) =>
-//   elem.title.toLowerCase().includes(search.toLowerCase())
-// );
-// "@types/react-router-dom": "^5.3.3",

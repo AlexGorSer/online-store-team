@@ -1,4 +1,4 @@
-import IProducts from "../IMain";
+import { IProducts } from "../IMain";
 
 export const setFilterHandler = (
   data: IProducts[],
@@ -55,3 +55,32 @@ export const searchByInput = (value: string, array: IProducts[]) => {
   );
   return [...test];
 };
+
+export interface IData {
+  data: IProducts[];
+  isLoad: boolean;
+  brand: string[];
+  category: string[];
+  setCrdObj(e: IProducts[]): void;
+  setCard(e: boolean): void;
+  setBasketArr(e: IProducts[]): void;
+  basketArr: IProducts[];
+}
+export interface IProp {
+  prop: IProducts;
+  index: number;
+  findCardObj(a: number): IProducts[];
+  setCrdObj(e: IProducts[]): void;
+  setCard(e: boolean): void;
+  setBasketArr(e: IProducts[]): void;
+  basketArr: IProducts[];
+  cardsView: boolean;
+}
+
+export interface IProductCard {
+  setCard(e: boolean): void;
+  cardObj: IProducts[];
+  setBasketArr(arr: IProducts[]): void;
+  basketArr: IProducts[];
+  setModal(e: boolean): void;
+}

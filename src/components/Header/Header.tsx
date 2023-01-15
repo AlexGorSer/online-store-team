@@ -1,6 +1,5 @@
 import React from "react";
-// import IProducts from "../Main/IMain";
-import IHeader, { setCountArr } from "./IHeader";
+import { IHeader, setCountArr } from "./IHeader";
 
 const Header: React.FC<IHeader> = ({
   srcTwo,
@@ -13,10 +12,6 @@ const Header: React.FC<IHeader> = ({
         className="store"
         onClick={() => setBasketComponent(false)}
       >
-        {/* <img
-          src={srcOne}
-          alt="logo-store"
-        /> */}
         <p>Online-store</p>
       </div>
       <p>Cart total: {setCountArr(basketArr)}.00</p>

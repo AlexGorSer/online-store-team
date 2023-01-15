@@ -1,6 +1,6 @@
-import IProducts from "../Main/IMain";
+import { IProducts } from "../Main/IMain";
 
-export default interface IHeader {
+export interface IHeader {
   srcOne: string;
   srcTwo: string;
   basketArr: IProducts[];

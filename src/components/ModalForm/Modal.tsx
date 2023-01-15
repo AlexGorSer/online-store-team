@@ -1,9 +1,7 @@
 import React from "react";
-
+import { IModal } from "./IModal";
 import "./modal.scss";
-interface IModal {
-  setModal(e: boolean): void;
-}
+
 export const Modal: React.FC<IModal> = ({ setModal }) => {
   return (
     <div

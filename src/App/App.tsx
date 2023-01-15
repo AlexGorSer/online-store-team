@@ -1,5 +1,5 @@
-import React, { ChangeEventHandler, useState } from "react";
-import { Route, Routes, useSearchParams } from "react-router-dom";
+import React, { useState } from "react";
+import { Route, Routes } from "react-router-dom";
 
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
@@ -7,7 +7,7 @@ import Main from "../components/Main/Main";
 import gitLogo from "../asset/svg/github.svg";
 import rssLogo from "../asset/svg/rs_school_js.svg";
 import cart from "../asset/img/cart.png";
-import IProducts from "../components/Main/IMain";
+import { IProducts } from "../components/Main/IMain";
 
 import { Modal } from "./../components/ModalForm/Modal";
 

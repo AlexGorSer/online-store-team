@@ -1,15 +1,8 @@
 import React from "react";
-import { useSearchParams } from "react-router-dom";
-import IFilterCheckboxes from "./IFilter";
-interface IFilter {
-  categoryArr: string[];
-  brandArr: string[];
-  setCategoryArr(element: string[]): void;
-  setCBrandArr(element: string[]): void;
-  category: string[];
-  brand: string[];
-}
-const Filter: React.FC<IFilter> = (props): React.ReactElement => {
+import { IFilter } from "./IFilter";
+import { FilterCheckboxes } from "./FilterCheckboxes";
+
+const Filter: React.FC<IFilter> = (props) => {
   const {
     categoryArr,
     brandArr,
@@ -18,7 +11,7 @@ const Filter: React.FC<IFilter> = (props): React.ReactElement => {
     setCBrandArr,
     brand,
   } = props;
-  // console.log(categoryArr, brandArr);
+
   return (
     <aside className="filter__container">
       <div className="button__container">
@@ -52,47 +45,6 @@ const Filter: React.FC<IFilter> = (props): React.ReactElement => {
         />
       </div>
     </aside>
-  );
-};
-
-const FilterCheckboxes: React.FC<IFilterCheckboxes> = ({
-  filterName,
-  categoryArr,
-  setCategoryArr,
-  category,
-}) => {
-  // const [searchParams, setSearchParams] = useSearchParams();
-  // const check = searchParams.get("checked") || "";
-
-  // const hand = (e: React.ChangeEvent<HTMLInputElement>, elem: string) => {
-  //   const check = e.target.checked;
-  //   const param = { [elem]: "false" };
-  //   if (check) param[elem] = "true";
-  //   setSearchParams(param);
-  // };
-  return (
-    <div className="filter__checkboxes">
-      <p>{filterName}:</p>
-      {categoryArr.map((elem, indx) => (
-        <div key={indx}>
-          <input
-            className="input-checkbox"
-            onChange={(e) => {
-              e.target.checked
-                ? setCategoryArr([...category, e.target.value])
-                : setCategoryArr(
-                    category.filter((elem) => e.target.value !== elem)
-                  );
-              // hand(e, elem);
-            }}
-            id={elem}
-            type="checkbox"
-            value={elem}
-          />
-          <label htmlFor={elem}>{elem}</label>
-        </div>
-      ))}
-    </div>
   );
 };
 

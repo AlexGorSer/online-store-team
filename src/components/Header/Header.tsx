@@ -1,23 +1,30 @@
 import React from "react";
-import ISoursIMG from "./IHeader";
+import { IHeader, setCountArr } from "./IHeader";
 
-const Header = ({ srcOne, srcTwo }: ISoursIMG): React.ReactElement => {
-  const cartCount = 0;
-  const basketCount = 0;
-
+const Header: React.FC<IHeader> = ({
+  srcTwo,
+  basketArr,
+  setBasketComponent,
+}) => {
   return (
     <header className="header__container">
-      <img
-        src={srcOne}
-        alt="logo-store"
-      />
-      <p>Cart total: {cartCount}</p>
-      <div>
+      <div
+        className="store"
+        onClick={() => setBasketComponent(false)}
+      >
+        <p>Online-store</p>
+      </div>
+      <p>Cart total: {setCountArr(basketArr)}.00</p>
+      <div
+        className="basket__container"
+        onClick={() => setBasketComponent(true)}
+      >
         <img
+          className="header_basket"
           src={srcTwo}
           alt="basket"
         />
-        <span>{basketCount}</span>
+        <span className="basket__count">{basketArr.length}</span>
       </div>
     </header>
   );

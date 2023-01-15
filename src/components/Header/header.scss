@@ -7,3 +7,19 @@
 
   border: 1px solid black;
 }
+.basket__container {
+  cursor: pointer;
+  position: relative;
+}
+.header_basket {
+  // position: absolute;
+  width: 60px;
+}
+.basket__count {
+  position: absolute;
+  top: 30%;
+  right: 40%;
+}
+.store {
+  cursor: pointer;
+}

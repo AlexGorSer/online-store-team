@@ -5,5 +5,9 @@
 @import "./components/Main/Products/products.scss";
 
 html {
+  box-sizing: border-box;
   font-size: 10px;
+}
+body {
+  margin: 0;
 }

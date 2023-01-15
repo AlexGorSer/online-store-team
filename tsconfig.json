@@ -3,11 +3,14 @@
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
-    "module": "es6",
-    "target": "es5",
+    "module": "esnext",
+    "target": "es6",
     "allowJs": true,
     "strict": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "moduleResolution": "node"
   },
-  "files": ["src/index.tsx"]
+  "files": ["src/index.tsx"],
+  "include": ["src/asset/**/*"]
+  // "exclude": ["./node_modules/**/*"]
 }

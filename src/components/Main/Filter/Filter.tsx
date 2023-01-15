@@ -1,34 +1,50 @@
 import React from "react";
-import IFilterCheckboxes from "./Ifilter";
+import { IFilter } from "./IFilter";
+import { FilterCheckboxes } from "./FilterCheckboxes";
 
-const Filter = (): React.ReactElement => {
+const Filter: React.FC<IFilter> = (props) => {
+  const {
+    categoryArr,
+    brandArr,
+    setCategoryArr,
+    category,
+    setCBrandArr,
+    brand,
+  } = props;
+
   return (
     <aside className="filter__container">
       <div className="button__container">
-        <button>Reset Filters</button>
+        <button
+          onClick={() => {
+            document
+              .querySelectorAll<HTMLInputElement>(".input-checkbox")
+              .forEach((e) => {
+                e.checked = false;
+              });
+            setCategoryArr([]);
+            setCBrandArr([]);
+          }}
+        >
+          Reset Filters
+        </button>
         <button>Copy link</button>
       </div>
       <div className="filter__blocks">
-        <FilterCheckboxes filterName="Category" />
-        <FilterCheckboxes filterName="Brand" />
-      </div>
-    </aside>
-  );
-};
-
-const FilterCheckboxes = (props: IFilterCheckboxes): React.ReactElement => {
-  const { filterName } = props;
-  return (
-    <div className="filter__checkboxes">
-      <p>{filterName}</p>
-      <div>
-        <input
-          type="checkbox"
-          name=""
-          id=""
+        <FilterCheckboxes
+          filterName="Category"
+          categoryArr={categoryArr}
+          setCategoryArr={setCategoryArr}
+          category={category}
+        />
+        <FilterCheckboxes
+          filterName="Brand"
+          categoryArr={brandArr}
+          setCategoryArr={setCBrandArr}
+          category={brand}
         />
       </div>
-    </div>
+    </aside>
   );
 };
 
